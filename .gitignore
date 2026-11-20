@@ -22,3 +22,5 @@
 *.opendb
 *.VC.db
 *.slnx
+# Android build temp (IL2CPP/Gradle tooling)
+.utmp/
