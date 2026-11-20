@@ -37,6 +37,9 @@ public class AlignmentFeedback : MonoBehaviour
     [Tooltip("Sideways distance from the marker, measured to the user's right (negative = left).")]
     public float miniViewSideOffset = -0.6f;
     public float miniViewHeightOffset = 0.1f;
+    [Tooltip("Label shown above the miniature once aligned. Empty = no label.")]
+    public string miniViewLabel = "Remote view";
+    public float miniViewLabelHeight = 0.35f;
 
     static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
     static readonly int ColorId = Shader.PropertyToID("_Color");
@@ -49,6 +52,8 @@ public class AlignmentFeedback : MonoBehaviour
     Text bannerText;
     Transform markerLabelRoot;
     Text markerLabelText;
+    Transform miniLabelRoot;
+    Text miniLabelText;
 
     float bannerHideTime = -1f;
     Coroutine flashRoutine;
@@ -63,6 +68,8 @@ public class AlignmentFeedback : MonoBehaviour
         bannerText = CreateLabel("AlignmentBanner", 72, out bannerRoot);
         markerLabelText = CreateLabel("MarkerLabel", 48, out markerLabelRoot);
         markerLabelRoot.gameObject.SetActive(false);
+        miniLabelText = CreateLabel("MiniViewLabel", 40, out miniLabelRoot);
+        miniLabelRoot.gameObject.SetActive(false);
     }
 
     void OnEnable()
@@ -216,6 +223,17 @@ public class AlignmentFeedback : MonoBehaviour
             FaceHead(markerLabelRoot);
             markerLabelText.text = "Shared Origin\n<size=36>Aligned</size>";
             markerLabelText.color = alignedColor;
+        }
+
+        bool showMiniLabel = aligned && miniViewRoot != null && !string.IsNullOrEmpty(miniViewLabel);
+        miniLabelRoot.gameObject.SetActive(showMiniLabel);
+
+        if (showMiniLabel)
+        {
+            miniLabelRoot.position = miniViewRoot.position + Vector3.up * miniViewLabelHeight;
+            FaceHead(miniLabelRoot);
+            miniLabelText.text = miniViewLabel;
+            miniLabelText.color = Color.white;
         }
     }
 
