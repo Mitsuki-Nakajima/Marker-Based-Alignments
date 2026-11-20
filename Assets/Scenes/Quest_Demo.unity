@@ -1398,6 +1398,69 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 605645084}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &682390325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 682390327}
+  - component: {fileID: 682390326}
+  m_Layer: 0
+  m_Name: EditorXRSimulator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &682390326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682390325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f962e471ffd6240f8941d1db9ef59504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EditorXRSimulator
+  cameraRig: {fileID: 985493724}
+  head: {fileID: 985493714}
+  leftHand: {fileID: 985493718}
+  rightHand: {fileID: 985493716}
+  startPosition: {x: 0, y: 1.6, z: 0}
+  startYaw: 0
+  moveSpeed: 1.2
+  fastMultiplier: 2.5
+  lookSensitivity: 0.15
+  leftRestOffset: {x: -0.2, y: -0.4, z: 0.3}
+  rightRestOffset: {x: 0.2, y: -0.4, z: 0.3}
+  reachOffset: {x: 0, y: 0.2, z: 0.35}
+  waveAmplitude: 0.12
+  waveFrequency: 9
+  handSmoothing: 12
+  backgroundColor: {r: 0.32, g: 0.33, b: 0.35, a: 1}
+  showFloorGrid: 1
+  gridSize: 10
+  showHelp: 1
+--- !u!4 &682390327
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682390325}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &702814049
 GameObject:
   m_ObjectHideFlags: 0
@@ -2194,6 +2257,17 @@ MonoBehaviour:
   edgeRenderingEnabled_: 0
   edgeColor_: {r: 1, g: 1, b: 1, a: 1}
   colorMapType: 0
+--- !u!114 &985493724 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11400010, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+  m_PrefabInstance: {fileID: 985493713}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985493719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9f338034892c44ebb62d97894772f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1001733011
 GameObject:
   m_ObjectHideFlags: 0
@@ -3634,3 +3708,4 @@ SceneRoots:
   - {fileID: 985493713}
   - {fileID: 419612186}
   - {fileID: 1799573895}
+  - {fileID: 682390327}
