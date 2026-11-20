@@ -24,7 +24,7 @@ MonoBehaviour:
   faceTrackingSupport: 0
   eyeTrackingSupport: 0
   colocationSessionSupport: 0
-  sceneSupport: 0
+  sceneSupport: 2
   boundaryVisibilitySupport: 0
   disableBackups: 1
   enableNSCConfig: 1
@@ -39,7 +39,7 @@ MonoBehaviour:
   useOpenXRPromptDeclined: 0
   focusAware: 1
   requiresSystemKeyboard: 0
-  experimentalFeaturesEnabled: 0
+  experimentalFeaturesEnabled: 1
   useForwardHeadPose: 1
   insightPassthroughEnabled: 0
   _insightPassthroughSupport: 2

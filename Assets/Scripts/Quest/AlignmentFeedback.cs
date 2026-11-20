@@ -15,6 +15,8 @@ public class AlignmentFeedback : MonoBehaviour
 {
     [Header("References")]
     public QuestMarkerCalibrator calibrator;
+    [Tooltip("Optional (Prototype 7A): QR acquisition triggers the same feedback, and QR status/payload is shown in the labels.")]
+    public QRMarkerProvider qrProvider;
     public AlignmentManager alignmentManager;
     public Transform head;
     public Transform sharedSpace;
@@ -76,12 +78,16 @@ public class AlignmentFeedback : MonoBehaviour
     {
         if (calibrator != null)
             calibrator.Calibrated += OnCalibrated;
+        if (qrProvider != null)
+            qrProvider.QRAligned += OnQRAligned;
     }
 
     void OnDisable()
     {
         if (calibrator != null)
             calibrator.Calibrated -= OnCalibrated;
+        if (qrProvider != null)
+            qrProvider.QRAligned -= OnQRAligned;
     }
 
     void Start()
@@ -117,6 +123,18 @@ public class AlignmentFeedback : MonoBehaviour
 
     void OnCalibrated(Pose pose)
     {
+        int count = calibrator != null ? calibrator.CalibrationCount : 1;
+        HandleAligned(pose, count > 1 ? $"RE-ALIGNED  #{count}" : "ALIGNED");
+    }
+
+    void OnQRAligned(Pose pose, string payload)
+    {
+        string title = qrProvider.AcquisitionCount > 1 ? "QR RE-ACQUIRED" : "QR ALIGNED";
+        HandleAligned(pose, string.IsNullOrEmpty(payload) ? title : $"{title}\n<size=40>\"{payload}\"</size>");
+    }
+
+    void HandleAligned(Pose pose, string bannerTitle)
+    {
         foreach (Renderer r in hiddenRenderers)
         {
             if (r != null)
@@ -126,8 +144,7 @@ public class AlignmentFeedback : MonoBehaviour
 
         PlaceMiniView(pose);
 
-        int count = calibrator != null ? calibrator.CalibrationCount : 1;
-        ShowBanner(count > 1 ? $"RE-ALIGNED  #{count}" : "ALIGNED", flashColor, bannerDuration);
+        ShowBanner(bannerTitle, flashColor, bannerDuration);
 
         if (flashRoutine != null)
             StopCoroutine(flashRoutine);
@@ -208,6 +225,10 @@ public class AlignmentFeedback : MonoBehaviour
     {
         if (bannerRoot.gameObject.activeSelf)
         {
+            // Before the first alignment, keep the hint's QR status line live.
+            if (bannerHideTime < 0f && qrProvider != null && !IsAligned())
+                bannerText.text = $"{hintText}\n<size=40>{qrProvider.StatusText()}</size>";
+
             PlaceBanner(false);
 
             if (bannerHideTime > 0f && Time.time >= bannerHideTime)
@@ -221,7 +242,9 @@ public class AlignmentFeedback : MonoBehaviour
         {
             markerLabelRoot.position = sharedSpace.position + Vector3.up * 0.15f;
             FaceHead(markerLabelRoot);
-            markerLabelText.text = "Shared Origin\n<size=36>Aligned</size>";
+            markerLabelText.text = qrProvider != null
+                ? $"Shared Origin\n<size=32>{qrProvider.StatusText()}</size>"
+                : "Shared Origin\n<size=36>Aligned</size>";
             markerLabelText.color = alignedColor;
         }
 
